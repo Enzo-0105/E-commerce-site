@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: user
+  template:
+    metadata:
+      labels:
+        type: user
+    spec:
+       containers:
+        - name: user-backend
+          image: enzo674/user-service:v1
+          ports:
+          - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-backend
+spec:
+  selector:
+    type: user
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

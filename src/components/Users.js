@@ -6,12 +6,15 @@ const Users = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
+    // Backend URL defined as an environment variable
+    const backendUrl = process.env.REACT_APP_USERS_BACKEND_URL || 'http://localhost:5000';
+
     // Fetch users on component mount
     useEffect(() => {
-        fetch('http://localhost:5000/users')
-            .then(res => res.json())
-            .then(data => setUsers(data));
-    }, []);
+        fetch(`${backendUrl}/users`)
+            .then((res) => res.json())
+            .then((data) => setUsers(data));
+    }, [backendUrl]);
 
     // Handle name input change
     const handleNameChange = (e) => {
@@ -26,12 +29,12 @@ const Users = () => {
     // Create a new user
     const createUser = (e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/users', {
+        fetch(`${backendUrl}/users`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email })
+            body: JSON.stringify({ name, email }),
         }).then(() => {
             setUsers([...users, { name, email }]); // Update the users list
             setName(''); // Clear the name input
@@ -43,8 +46,10 @@ const Users = () => {
         <div>
             <h2>Users</h2>
             <ul>
-                {users.map(user => (
-                    <li key={user.id}>{user.name} - {user.email}</li>
+                {users.map((user) => (
+                    <li key={user.id}>
+                        {user.name} - {user.email}
+                    </li>
                 ))}
             </ul>
             <form onSubmit={createUser}>

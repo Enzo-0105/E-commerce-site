@@ -6,22 +6,25 @@ const Products = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
 
+    // Backend URL defined as an environment variable
+    const backendUrl = process.env.REACT_APP_PRODUCTS_BACKEND_URL || 'http://localhost:5001';
+
     // Fetch products on component mount
     useEffect(() => {
-        fetch('http://localhost:5001/products')
-            .then(res => res.json())
-            .then(data => setProducts(data));
-    }, []);
+        fetch(`${backendUrl}/products`)
+            .then((res) => res.json())
+            .then((data) => setProducts(data));
+    }, [backendUrl]);
 
     // Create a new product
     const createProduct = (e) => {
         e.preventDefault();
-        fetch('http://localhost:5001/products', {
+        fetch(`${backendUrl}/products`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, price })
+            body: JSON.stringify({ name, price }),
         }).then(() => {
             setProducts([...products, { name, price }]); // Update the products list
             setName(''); // Clear the name input
@@ -33,8 +36,10 @@ const Products = () => {
         <div>
             <h2>Products</h2>
             <ul>
-                {products.map(product => (
-                    <li key={product.id}>{product.name} - ${product.price}</li>
+                {products.map((product) => (
+                    <li key={product.id}>
+                        {product.name} - ${product.price}
+                    </li>
                 ))}
             </ul>
             <form onSubmit={createProduct}>

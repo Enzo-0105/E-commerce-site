@@ -7,20 +7,23 @@ const Orders = () => {
     const [productId, setProductId] = useState('');
     const [quantity, setQuantity] = useState('');
 
+    // Backend URL defined as an environment variable
+    const backendUrl = process.env.REACT_APP_ORDERS_BACKEND_URL || 'http://localhost:5002';
+
     // Fetch orders on component mount
     useEffect(() => {
-        fetch('http://localhost:5002/orders')
+        fetch(`${backendUrl}/orders`)
             .then(res => res.json())
             .then(data => setOrders(data));
-    }, []);
+    }, [backendUrl]);
 
     // Create a new order
     const createOrder = (e) => {
         e.preventDefault();
-        fetch('http://localhost:5002/orders', {
+        fetch(`${backendUrl}/orders`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ user_id: userId, product_id: productId, quantity })
         }).then(() => {
@@ -36,7 +39,9 @@ const Orders = () => {
             <h2>Orders</h2>
             <ul>
                 {orders.map(order => (
-                    <li key={order.id}>User ID: {order.user_id}, Product ID: {order.product_id}, Quantity: {order.quantity}</li>
+                    <li key={order.id}>
+                        User ID: {order.user_id}, Product ID: {order.product_id}, Quantity: {order.quantity}
+                    </li>
                 ))}
             </ul>
             <form onSubmit={createOrder}>
