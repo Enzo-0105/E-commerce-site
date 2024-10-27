@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      type: webapp
+  template:
+    metadata:
+      labels:
+        type: webapp
+    spec:
+       containers:
+       - name: webapp
+         image: enzo674/webapp:v0.1
+         ports:
+         - containerPort: 80
+         env:
+         - name: REACT_APP_USERS_BACKEND_URL
+           value: user-backend:5000/users
+         - name: REACT_APP_ORDERS_BACKEND_URL
+           value: order-backend:5002/orders
+         - name: REACT_APP_PRODUCTS_BACKEND_URL
+           value: product-backend:5001/products
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  selector:
+    type: webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+

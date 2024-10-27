@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  frontend:
+    build: . 
+    ports:
+     - "80:80"
+  user-backend:
+    build: microservice-project/user-service/.
+    ports:
+     - "5000:5000"
+  order-backend:
+    build: microservice-project/order-service/.
+    ports:
+     - "5002:5002"
+  product-backend:
+    build: microservice-project/product-service/.
+    ports:
+     - "5001:5001"
+  
