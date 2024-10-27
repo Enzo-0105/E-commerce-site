@@ -1,0 +1,25 @@
+name: e-commerce 
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  ecommerce:
+    runs-on: ubuntu-latest
+    name: e-commerce
+    steps:
+
+    - name: checking code
+      with: actions/checkout@v2
+
+    - name: running static analysis
+      uses: sonarsource/sonarqube-scan-action@v3.0.0
+      env:
+        SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+        SONAR_URL: ${{secrets.SONAR_URL}}
