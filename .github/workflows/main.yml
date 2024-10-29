@@ -32,9 +32,24 @@ jobs:
         lookup-only: false
         # Run the post step to save the cache even if another step before fails
         save-always: true
-          
+        
+    - name: python setup
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13' 
+
+    - name: install dependencies
+      run: |
+       pip install pytest pytest-cov
+
+    - name: Run tests
+      run: |
+        pytest --cov=backend/user-service --cov=backend/order-service --cov=backend/product-service --cov-report=xml:coverage.xml
+        
     - name: running static analysis
       uses: sonarsource/sonarqube-scan-action@v3
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      with:
+        args: -Dsonar.python.coverage.reportPaths=user-service/coverage.xml,order-service/coverage.xml,product-service/coverage.xml
