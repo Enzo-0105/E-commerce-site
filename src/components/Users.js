@@ -7,7 +7,7 @@ const Users = () => {
     const [email, setEmail] = useState('');
 
     // Backend URL defined as an environment variable
-    const backendUrl = process.env.REACT_APP_USERS_BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = process.env.REACT_APP_USERS_BACKEND_URL;
 
     // Fetch users on component mount
     useEffect(() => {

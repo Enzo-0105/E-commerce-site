@@ -8,7 +8,7 @@ const Orders = () => {
     const [quantity, setQuantity] = useState('');
 
     // Backend URL defined as an environment variable
-    const backendUrl = process.env.REACT_APP_ORDERS_BACKEND_URL || 'http://localhost:5002';
+    const backendUrl = process.env.REACT_APP_ORDERS_BACKEND_URL;
 
     // Fetch orders on component mount
     useEffect(() => {

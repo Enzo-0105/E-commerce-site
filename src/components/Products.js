@@ -7,7 +7,7 @@ const Products = () => {
     const [price, setPrice] = useState('');
 
     // Backend URL defined as an environment variable
-    const backendUrl = process.env.REACT_APP_PRODUCTS_BACKEND_URL || 'http://localhost:5001';
+    const backendUrl = process.env.REACT_APP_PRODUCTS_BACKEND_URL;
 
     // Fetch products on component mount
     useEffect(() => {
