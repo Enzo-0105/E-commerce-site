@@ -34,8 +34,33 @@ jobs:
       run: |
        pip install flask
         
-    - name: running static analysis
-      uses: sonarsource/sonarqube-scan-action@v3
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+    #- name: running static analysis
+     # uses: sonarsource/sonarqube-scan-action@v3
+     # env:
+      #  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       # SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+    - name: docker login 
+      uses: docker/login-action@v3.3.0
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: docker tags
+      id: git-info
+      run: |
+       echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+       echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/}) >> $GITHUB_ENV
+
+    - name: docker build 
+      run: |
+        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest'
+        IMAGE_NAME=enzo674/webapp
+        docker build -t $IMAGE_NAME:$TAG . 
+        
+    - name: docker push
+      run: |
+        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest'
+        IMAGE_NAME=enzo674/webapp
+        docker push -t $IMAGE_NAME:$TAG . 
+        
