@@ -54,13 +54,13 @@ jobs:
 
     - name: docker build 
       run: |
-        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest'
+        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest' }}
         IMAGE_NAME=enzo674/webapp
         docker build -t $IMAGE_NAME:$TAG . 
         
     - name: docker push
       run: |
-        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest'
+        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest' }}
         IMAGE_NAME=enzo674/webapp
         docker push -t $IMAGE_NAME:$TAG . 
         
