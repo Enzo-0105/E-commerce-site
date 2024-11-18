@@ -61,5 +61,5 @@ jobs:
     - name: docker push
       run: |
         IMAGE_NAME=enzo674/webapp
-        docker push -t $IMAGE_NAME:latest
+        docker push $IMAGE_NAME:latest
         
