@@ -50,7 +50,7 @@ jobs:
       id: git-info
       run: |
        echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-       echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
+       echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/} tr / -)" >> $GITHUB_ENV
 
     - name: docker build 
       run: |
