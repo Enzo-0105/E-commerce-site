@@ -1,7 +1,7 @@
 FROM node:16-alpine3.16 AS build
 WORKDIR /app
 COPY . .
-RUN npm install --force
+RUN npm install --force && npm run build
 
 FROM nginx:1.26-alpine-slim
 COPY --from=build /app/build/* /usr/share/nginx/html
