@@ -50,7 +50,7 @@ jobs:
       id: git-info
       run: |
        echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-       echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/} | tr / -)" >> $GITHUB_ENV
+       echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
 
     - name: docker build 
       run: |
@@ -60,7 +60,6 @@ jobs:
         
     - name: docker push
       run: |
-        TAG=${{ env.TAG_NAME || env.BRANCH_NAME || 'latest' }}
         IMAGE_NAME=enzo674/webapp
         docker push -t $IMAGE_NAME:latest
         
